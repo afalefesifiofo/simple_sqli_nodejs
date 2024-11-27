@@ -20,12 +20,13 @@ app.get('/', (req, res) => {
 // Endpoint per la gestione del login
 app.post('/auth', (req, res) => {
   const { username, password } = req.body;
+  console.log(`Dati ricevuti: username=${username}, password=${password}`); /// username=admin'; UPDATE users SET password='Nuova' WHERE username='admin' --, password=dsdsdd
 
   // La query è costruita in modo pericoloso, concatenando i valori direttamente
   const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
 
   // Esegui la query
-  db.get(query, (err, row) => {
+  db.exec(query, (err, row) => { /// only exec method can execute 2 query together
     if (err) {
       console.error(err);
       return res.status(500).send('Errore del server');
